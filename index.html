@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Utenti da Gist JSON</title>
+  <style>
+    table {
+      width: 60%;
+      margin: 20px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #aaa;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <h2 style="text-align: center;">Utenti da Gist</h2>
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dati caricati dinamicamente -->
+    </tbody>
+  </table>
+
+  <script>
+    // Inserisci qui il link RAW del tuo Gist
+    const url = 'https://gist.githubusercontent.com/USERNAME/GIST_ID/raw/NOMEFILE.json';
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Errore nel caricamento del JSON');
+        }
+        return response.json();
+      })
+      .then(utenti => {
+        const tbody = document.querySelector('#userTable tbody');
+        utenti.forEach(utente => {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${utente.nome}</td><td>${utente.email}</td>`;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Errore:', error);
+      });
+  </script>
+
+</body>
+</html>
